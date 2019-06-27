@@ -1,0 +1,86 @@
+﻿@using SHP.Models;
+@*@{
+    var nameUser = Mo;
+}*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/modernizr")*@
+    <script type="text/javascript">
+        //$.noConflict();
+        function SetUserModal(event, href) {
+            ajaxModal(event, href, 2, {
+                static: true,
+                fnShown: function () {
+                    jQuery.SHP.Answer.init();
+                },
+                fnHidden: function () {
+                    //   dt.api().draw('page');
+                }
+            });
+        }
+    </script>
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="right_col" role="main" style="margin-left: 0px;">
+                <div class="">
+                    <div class="page-title">
+                        <div class="navbar navbar-inverse navbar-fixed-top">
+                            <div class="container">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    @Html.ActionLink("Self Help Portal", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                                </div>
+                                <div class="navbar-collapse collapse">
+                                    <ul class="nav navbar-nav">
+                                        <li>@Html.ActionLink("Cambiar de Usuario", "login", "Home", new { @OnClientClick = "logout();" })</li>
+                                        <li>@Html.ActionLink("LogOut", "LogOut", "Home")</li>
+                                        <li><a href="/Answers/SetUser" onclick="SetUserModal(event, this.href);">Set other User Password</a></li>
+                                        @*<li>@Html.ActionLink("Set other User Password", "SetUser", "Answers")</li>*@
+                                    </ul>
+                                    <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                @RenderBody()
+                                <hr />
+                                <center>
+                                    <footer>
+                                        <p>&copy; @DateTime.Now.Year - Apex Tool Group</p>
+                                    </footer>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script src="~/Scripts/Security/Modals.js"></script>
+
+    <script>
+
+        function logout() {
+            document.execCommand("ClearAuthenticationCache", false);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+﻿@model SHP.Models.User
+@{
+    ViewBag.Title = "Get User Info";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*@section Styles
+    {
+        <!-- Bootstrap -->
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <!-- iCheck -->
+        <link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet">
+
+        <!-- Datatables -->
+        <!--<link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">-->
+        <!-- Custom Theme Style -->
+        <link href="~/Content/custom.min.css" rel="stylesheet">
+    }*@
+
+<script type="text/javascript" src="~/Scripts/UserControl.js"></script>
+<script>
+    $.noConflict();
+    jQuery(document).ready(function () {
+        //jQuery('.modal').modal();
+
+        // Find all iframes
+        var $iframes = jQuery("iframe");
+
+        // Find &#x26; save the aspect ratio for all iframes
+        $iframes.each(function () {
+            jQuery(this).data("ratio", this.height / this.width)
+              // Remove the hardcoded width &#x26; height attributes
+              .removeAttr("width")
+              .removeAttr("height");
+        });
+
+        // Resize the iframes when the window is resized
+        jQuery(window).resize(function () {
+            $iframes.each(function () {
+                // Get the parent container&#x27;s width
+                var width = jQuery(this).parent().width();
+                jQuery(this).width(width)
+                  .height(width * jQuery(this).data("ratio"));
+            });
+            // Resize to fix all iframes on page load.
+        }).resize();
+
+    });
+</script>
+
+<script language="javascript" type="text/javascript">
+    function openNewWindows(){
+        window.open("https://www.atgbasecamp.com/irj/portal?NavigationTarget=navurl%3A%2F%2F8991205a8b63e7c6cc9cee06d7c25982&CurrentWindowId=WID1514485722712&NavMode=3&PrevNavTarget=navurl%3A%2F%2F8991205a8b63e7c6cc9cee06d7c259822");
+    }
+    </script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>User Information </h2>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+            <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+
+                <div class="profile_img">
+
+                    <!-- end of image cropping -->
+                    <div id="crop-avatar">
+                        <!-- Current avatar -->
+                        <img class="img-responsive avatar-view" src="~/Content/images/user.png" alt="Avatar" title="Change the picture" style="width:60%;">
+
+                        <!-- Cropping modal -->
+                        <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <form class="avatar-form" action="crop.php" enctype="multipart/form-data" method="post">
+                                        <div class="modal-header">
+                                            <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                            <h4 class="modal-title" id="avatar-modal-label">Change Avatar</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="avatar-body">
+
+                                                <!-- Upload image and data -->
+                                                <div class="avatar-upload">
+                                                    <input class="avatar-src" name="avatar_src" type="hidden">
+                                                    <input class="avatar-data" name="avatar_data" type="hidden">
+                                                    <label for="avatarInput">Local upload</label>
+                                                    <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+                                                </div>
+
+                                                <!-- Crop and preview -->
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <div class="avatar-wrapper"></div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="avatar-preview preview-lg"></div>
+                                                        <div class="avatar-preview preview-md"></div>
+                                                        <div class="avatar-preview preview-sm"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row avatar-btns">
+                                                    <div class="col-md-9">
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-primary" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees">Rotate Left</button>
+                                                            <button class="btn btn-primary" data-method="rotate" data-option="-15" type="button">-15deg</button>
+                                                            <button class="btn btn-primary" data-method="rotate" data-option="-30" type="button">-30deg</button>
+                                                            <button class="btn btn-primary" data-method="rotate" data-option="-45" type="button">-45deg</button>
+                                                        </div>
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-primary" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees">Rotate Right</button>
+                                                            <button class="btn btn-primary" data-method="rotate" data-option="15" type="button">15deg</button>
+                                                            <button class="btn btn-primary" data-method="rotate" data-option="30" type="button">30deg</button>
+                                                            <button class="btn btn-primary" data-method="rotate" data-option="45" type="button">45deg</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary btn-block avatar-save" type="submit">Done</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="modal-footer">
+                                                          <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                                                        </div> -->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.modal -->
+                        <!-- Loading state -->
+                        @* <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>*@
+                    </div>
+                    <!-- end of image cropping -->
+
+                </div>
+
+
+                @*<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        @Html.EditorFor(model => model.CiudadID, new { htmlAttributes = new { @class = "form-control text-right" } })
+                                        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "form-label" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                <h3>@Model.UserName</h3>
+
+                <ul class="list-unstyled user_data">
+                    <li><i class="fa fa-map-marker user-profile-icon"></i> @Model.UserCountry , @Model.UserCity</li>
+                    <li><i class="fa fa-bullseye user-profile-icon"></i> @Model.UserOffice</li>
+                    <li><i class="fa fa-user user-profile-icon"></i> @Model.UserId</li>
+                    <li><i class="fa fa-briefcase user-profile-icon"></i> @Model.UserTitle</li>
+                    <li><i class="fa fa-envelope-o user-profile-icon"></i> <a href="mailto:@Model.UserMail"> @Model.UserMail</a></li>
+                </ul>
+                <br />
+
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+
+
+
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="">
+                            <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Domain User</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false" onclick="openNewWindows()" style="cursor:pointer; text-decoration:underline;">SAP</a>
+                        </li>
+                        <li role="presentation" class="active">
+                            <a href="#tab_content2" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">SAP 2</a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in" id="tab_content1" aria-labelledby="home-tab">
+
+                            <!-- start recent activity -->
+                            <div class="col-md-6 col-xs-12">
+
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>User Status</h2>
+                                        <ul class="nav navbar-right panel_toolbox"></ul>
+                                        <div class="clearfix"></div>
+                                        <div class="x_content">
+                                            <br />
+                                            <div>
+                                                <label class="control-label" for="status" style="padding-right: 10px;">Status</label>
+
+                                                @if (@ViewBag.Status == true)
+                                                {
+                                                    <button type="button" class="btn btn-round btn-danger" disabled="disabled">Bloqued</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn btn-round btn-success" disabled="disabled">Enabled</button>
+                                                }
+
+                                            </div>
+                                            <br />
+                                            <div class="btn-group " role="group" aria-label="...">
+
+                                                <button type="button" class="btn btn-primary btn-lg" style="margin-right: 10px;" data-toggle="modal" data-target="#tab_changePassword">Change Password</button>
+                                                <button type="button" class="btn btn-primary btn-lg" style="margin-right: 10px;" data-toggle="modal" data-target="#tab_resetPassword">Reset Password</button>
+                                                @*<a class="waves-effect waves-light btn modal-trigger" href="#tab_changePassword">Change Password</a>*@
+                                                @if (@ViewBag.Status == true)
+                                                {
+
+                                                    <button type="button" class="btn btn-primary btn-lg " onclick="_UnlockUser('@Model.UserId');">Unlock User</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn btn-primary btn-lg disabled" onclick="_UnlockUser('@Model.UserId');">Unlock User</button>
+                                                }
+                                                @*  <button type="button" class="btn btn-primary btn-lg" onclick="_UnlockUser('@Model.UserId');">Unlock User</button>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>Security questions </h2>
+                                        <ul class="nav navbar-right panel_toolbox"></ul>
+                                        <div class="clearfix"></div>
+                                        <div class="x_content">
+                                            <br />
+
+                                            <form class="form-horizontal form-label-left input_mask">
+                                                @{ int i = 0;}
+                                                @foreach (var answer in Model.AnswerList)
+                                                {
+                                                    i = i + 1;
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Question @i: </label>
+                                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                                            @*@Html.TextBox(answer.Question.QuestionDesc.ToString(), new { @class = "form-control", @disabled = "disabled" });*@
+                                                            <input type="text" class="form-control" disabled="disabled" placeholder="@answer.Question.QuestionDesc.ToString()">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Answer @i:</label>
+                                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                                            <input type="password" class="form-control" disabled="disabled" value="@answer.AnswerDesc">
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            </form>
+
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group">
+                                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                                    <a role="button" class="btn btn-primary" style="margin-right: 10px;" href="/Answers/Create">Create</a>
+                                                    <a role="button" class="btn btn-primary" style="margin-right: 10px;" href="/Answers/Edit">Edit</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end recent activity -->
+
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade active" id="tab_content2" aria-labelledby="home-tab">
+
+                            <!-- start recent activity -->
+                            <div id="iframe">
+
+                                <iframe src="https://www.atgbasecamp.com/irj/portal?NavigationTarget=navurl%3A%2F%2F8991205a8b63e7c6cc9cee06d7c25982&CurrentWindowId=WID1514485722712&NavMode=3&PrevNavTarget=navurl%3A%2F%2F8991205a8b63e7c6cc9cee06d7c259822" allowfullscreen></iframe>
+
+                            </div>
+                            <!-- end recent activity -->
+                        </div>
+
+                        <!-- Modal Change Password-->
+                        <div class="modal fade" id="tab_changePassword" role="dialog">
+                            <div class="modal-dialog">
+                                <form name="formChangePass" method="post">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Change Password</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>
+                                                <input name="passOld" id="passOld" class="form-control" type="password" style="float: left; padding-left: 15px;" placeholder="Old Password" />
+                                                <input name="passNew" id="passNew" class="form-control" type="password" style="float: left; padding-left: 15px;" placeholder="New Password" />
+                                                <input name="passConfirm" id="passConfirm" class="form-control" type="password" style="float: left; padding-left: 15px;" placeholder="Confirm Password" />
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="validateChangePass('@Model.UserId');">Change Password </button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        
+                        <!-- end user projects -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

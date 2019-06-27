@@ -1,0 +1,50 @@
+﻿@model SHP.Models.Answer
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Answer</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Question.QuestionDesc)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Question.QuestionDesc)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.User.UserName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.AnswerDesc)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AnswerDesc)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

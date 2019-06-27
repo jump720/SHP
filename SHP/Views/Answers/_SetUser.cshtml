@@ -1,0 +1,59 @@
+﻿@model SHP.Models.Answer
+@{
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+}
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
+<script src="~/Scripts/Security/Answer.js"></script>
+
+<script type="text/javascript">
+    //$.noConflict();
+    jQuery.SHP.Answer.init = function () {
+        jQuery.SHP.Answer("SetUser");
+    };
+</script>
+
+
+@if (ViewBag.Javascript != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Javascript");
+            };
+    </script>
+}
+
+@using (Html.BeginForm("SetUser", controllerName, FormMethod.Post, new { id = "frmSetUser", onsubmit = "return ValidationUserId()" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-header">
+        <button type="button" class="close btn-link" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Write the User ID</h4>
+    </div>
+
+    <span id="Validation" class="red-text text-darken-2"></span>
+    @Html.ValidationSummary(true, "", new { @class = "red-text text-accent-4" })
+
+    <div class="modal-body">
+        <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="form-group form-float">
+                    @*<input type="text" class="form-control" id="UserId">*@
+                    <div class="form-line">
+                        @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "red-text text-accent-4" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="m-b-0 m-t--10" />
+
+    <div class="modal-footer">
+        <input id="Send" type="submit" class="btn btn-primary waves-effect" value="Send" />
+        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
+    </div>
+}

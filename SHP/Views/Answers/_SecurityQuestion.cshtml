@@ -1,0 +1,63 @@
+﻿@model IEnumerable<SHP.Models.Answer>
+
+@{
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
+<script src="~/Scripts/Security/Answer.js"></script>
+
+@using (Html.BeginForm("SecurityQuestions", controllerName, FormMethod.Post, new { id = "formSecurityQuestions", onsubmit = "return ValidationEvent()" }))
+{
+    @Html.AntiForgeryToken()
+    int i = 0;
+    var UserId = Model.Select(a => a.UserId).FirstOrDefault();
+
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Answer the questions for @UserId user</h2>
+
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+            <div class="form-horizontal">
+
+                <span id="Validation" class="red-text text-darken-2"></span>
+                @Html.ValidationSummary(true, "", new { @class = "red-text text-accent-4" })
+
+                @*<input type="text" class="form-control" id="UserId">*@
+
+                @foreach (var item in Model)
+                {
+                    i = i + 1;
+                    <div class="form-line">
+                        @*@Html.LabelFor(modelItem => item.Question.QuestionDesc, htmlAttributes: new { @class = "form-label" })*@
+                        <label class="form-control" id="QuestionId_@i" name="QuestionId_@i">@item.Question.QuestionDesc.ToString()</label>
+                    </div>
+                    <div class="hidden">
+                        <input type="text" class="form-control validate" id="QuestionId_@i" name="QuestionId_@i" value="@item.QuestionId" />
+                    </div>
+                    <div class="form-line">
+                        <input type="text" class="form-control validate" id="AnswerDesc_@i" name="AnswerDesc_@i">
+                        @*@Html.EditorFor(modelItem => item.AnswerDesc, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(modelItem => item.AnswerDesc, "", new { @class = "red-text text-accent-4" })
+                    </div>
+                }
+                <div class="hidden">
+                    <input type="text" value="@i" id="UltimoItem" name="UltimoItem" />
+                    <input type="text" value="@UserId" id="UserId" name="UserId" />
+                </div>
+            </div>
+        </div>
+
+        <hr class="m-b-0 m-t--10" />
+
+        <div class="modal-footer">
+            <input id="Send" type="submit" class="btn btn-primary waves-effect" value="Send" />
+            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+}
